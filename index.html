@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Dashset</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div id="title">
+      <h1>Dashset</h1>
+    </div>
+    <section>
+      Dashset will take
+      <div class="figure" id="node-figure">
+        <noscript><h1>Please enable Javascript</h1></noscript>
+      </div>
+      and turn it into
+      <div class="figure">
+        <noscript><h1>Please enable Javascript</h1></noscript>
+        <center>
+        Width: <input id="result-width-input" type="range" min="50" max="600" value="250" step="1" />
+        </center>
+        <div id="result-figure-container"></div>
+        <center>
+          Typeset in <span id="result-typeset-time">(not typeset)</span>
+        </center>
+      </div>
+    </section>
+
+    <script src="dist/dashset.min.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>

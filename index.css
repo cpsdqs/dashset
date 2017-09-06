@@ -1,0 +1,112 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Roboto',
+    'Lucida Grande', 'Segoe UI', 'Oxygen Sans', 'Ubuntu', 'Cantarell',
+    sans-serif;
+  margin: 0;
+  margin-bottom: 3em;
+}
+
+#title {
+  text-align: center;
+  padding: 3em 1em;
+}
+#title h1 {
+  margin: 0;
+}
+
+section {
+  max-width: 76ex;
+  margin: 0 auto;
+  padding: 0 1em;
+}
+
+.figure {
+  background: #eee;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+#node-figure {
+  border-radius: 0; /* super laggy when enabled */
+  max-height: 400px;
+  overflow: auto;
+}
+
+.figure-node {
+  padding-top: 5px;
+  padding-left: 10px;
+}
+.paragraph-node {
+  border-radius: 4px;
+  background: #ddd;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+.figure-node .node-name {
+  font-weight: bold;
+  display: inline-block;
+}
+.figure-node .node-properties {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  list-style-type: none;
+}
+.figure-node .node-properties li {
+  display: inline-block;
+}
+.figure-node .node-properties li .name {
+  color: #f54784;
+}
+.figure-node .node-properties li .value {
+  color: #637bc5;
+}
+.text-node .node-name {
+  color: #4ebc6b;
+}
+.text-node .text-content {
+  margin-left: 10px;
+  padding: 0 5px;
+  display: inline-block;
+  white-space: pre;
+  background: #ccc;
+  border-radius: 4px;
+}
+.text-node .text-content .control {
+  color: #637bc5;
+  font-family: Inconsolata, monospace;
+}
+.text-node .text-content::before { content: '“' }
+.text-node .text-content::after { content: '”' }
+.text-node .text-content::before,
+.text-node .text-content::after { opacity: 0.5 }
+
+#result-figure-container {
+  width: 250px;
+  margin: 0 auto;
+  font-size: 15px;
+  outline: 1px solid rgba(0, 0, 0, 0.2);
+}
+#result-figure-container .line {
+  white-space: nowrap;
+}
+#result-figure-container .spacer {
+  display: inline-block;
+}
+#result-figure-container .text {
+  display: inline-block;
+  white-space: pre;
+}
+#result-figure-container .text.hyphen::after {
+  content: '-';
+}
+#result-figure-container:hover .line {
+  outline: 1px solid rgba(0, 0, 255, 0.3);
+}
+#result-figure-container:hover .spacer {
+  outline: 1px solid rgba(255, 0, 0, 0.2);
+}
+#result-figure-container:hover .text {
+  outline: 1px solid rgba(0, 255, 0, 0.4);
+}
