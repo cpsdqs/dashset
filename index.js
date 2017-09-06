@@ -177,7 +177,7 @@
           span.style.fontSize = `${item.size}em`
           span.style.fontWeight = item.bold
             ? item.context.boldWeight
-            : item.context.fontWeight
+            : 400
           span.style.fontStyle = item.italic ? 'italic' : ''
 
           if (item.href) {
