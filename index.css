@@ -55,6 +55,7 @@ section {
 }
 .figure-node .node-properties li {
   display: inline-block;
+  margin: 0 3px;
 }
 .figure-node .node-properties li .name {
   color: #f54784;
