@@ -15,8 +15,7 @@ class Line
 
   update: ->
     @width = (node.width for node in @content).reduce ((a, b) -> a + b), 0
-    @height = Math.max (node.height for node in @content)...
-    @height *= @context.lineHeight
+    @height = Math.max (node.height + node.lineHeight * (@context.lineHeight - 1) for node in @content)...
 
   append: (child) ->
     @content.push child if not (child in @content)

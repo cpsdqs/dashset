@@ -47,4 +47,4 @@ class TextNode extends Typesettable
 
     font = @getFont()
     @width = @context.measureText content, font
-    @height = font.size
+    @height = @lineHeight = font.size

@@ -33,3 +33,5 @@ class ImageNode extends Typesettable
       when 2
         @height = @context.fontSize
         @width = @imageWidth * (@context.fontSize / @imageHeight)
+
+    @lineHeight = @context.fontSize

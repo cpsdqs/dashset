@@ -74,12 +74,14 @@ module.exports = Typesettable = class Typesettable {
   constructor() {
     this.width = 0;
     this.height = 0;
+    this.lineHeight = 0;
     this.context = null;
   }
 
   typeset() {
     this.width = 0;
-    return this.height = 0;
+    this.height = 0;
+    return this.lineHeight = 0;
   }
 
 };
@@ -188,13 +190,14 @@ module.exports = ImageNode = class ImageNode extends Typesettable {
         }
         if (this.height > this.context.height) {
           this.width *= this.context.height / this.height;
-          return this.height = this.context.height;
+          this.height = this.context.height;
         }
         break;
       case 2:
         this.height = this.context.fontSize;
-        return this.width = this.imageWidth * (this.context.fontSize / this.imageHeight);
+        this.width = this.imageWidth * (this.context.fontSize / this.imageHeight);
     }
+    return this.lineHeight = this.context.fontSize;
   }
 
 };
@@ -237,17 +240,16 @@ module.exports = Line = class Line {
     }).call(this)).reduce((function(a, b) {
       return a + b;
     }), 0);
-    this.height = Math.max(...((function() {
+    return this.height = Math.max(...((function() {
       var i, len, ref, results;
       ref = this.content;
       results = [];
       for (i = 0, len = ref.length; i < len; i++) {
         node = ref[i];
-        results.push(node.height);
+        results.push(node.height + node.lineHeight * (this.context.lineHeight - 1));
       }
       return results;
     }).call(this)));
-    return this.height *= this.context.lineHeight;
   }
 
   append(child) {
@@ -334,7 +336,7 @@ module.exports = TextNode = class TextNode extends Typesettable {
     }
     font = this.getFont();
     this.width = this.context.measureText(content, font);
-    return this.height = font.size;
+    return this.height = this.lineHeight = font.size;
   }
 
 };
@@ -350,6 +352,7 @@ module.exports = Spacer = class Spacer {
   constructor(width, height) {
     this.width = width;
     this.height = height;
+    this.lineHeight = height;
     this.type = 'spacer';
   }
 
