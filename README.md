@@ -65,8 +65,8 @@ for (const line of paragraph.lines) {
       spacer.style.height = `${item.height}px`
       lineElement.append(spacer)
     } else if (item.type === 'text') {
-      // text is just a TextNode
-      const text = document.createElement('text')
+      // text is just text, possibly with styles
+      const text = document.createElement('span')
       // (there'd probably be code here applying the text styles)
       text.textContent = item.content
       if (item.hyphenEnabled) {
