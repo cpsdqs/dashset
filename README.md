@@ -1,6 +1,23 @@
 # Dashset
 Javascript typesetter.
 
+### What it does
+- Split rich text into lines, i.e.:
+- Input: paragraph node containing typesettable nodes (e.g. text/images)
+- Every node is typeset, i.e. it figures out its own width and height
+  + Images will not be fetched, `imageWidth` and `imageHeight` must be set manually, and the paragraph may have to be typeset again once loaded
+- The paragraph node splits the string of nodes into lines, adding hyphens to hyphenated words if necessary
+- Output: paragraph lines that contain nodes (the same ones, but may also contain extra spacers or such, so don't expect indices to match)
+
+### Why it does
+- Splitting rich text into pages is tedious and/or hard
+
+### What it doesn't do
+- Parse HTML and output typesettable nodes
+- Guarantee 100% clean typesetting (e.g. `“world”` may be split into lines as `“world`, `”`, creating a dangling punctuation mark on the next line; lines may be slightly over the allowed width)
+- Output HTML
+- Fancy stuff like floats or non-rectangular text shapes
+
 ## Example
 ```javascript
 const dashset = window.dashset // (or require('path/to/dashset'))
@@ -30,7 +47,9 @@ paragraph.append(new dashset.TextNode(context, { content: 'text.' }))
 
 // typeset the paragraph.
 // This part requires a document, able to create a CanvasRenderingContext2D.
-// if there is no document, each character will be as wide as the font size.
+// If there is no document, each character will be 1em wide.
+// If there is a custom measurer, however, it will use that one for measuring
+// character widths instead (dashset.measureText.setCustomMeasurer)
 paragraph.typeset()
 
 // paragraph.lines now contains an array of `Line`s

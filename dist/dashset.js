@@ -1,4 +1,4 @@
-/*! dashset 0.1.0 | GPL-3.0 (https://spdx.org/licenses/GPL-3.0) */
+/*! dashset 0.2.0 | MIT (https://spdx.org/licenses/MIT) */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -68,22 +68,6 @@
 /* 0 */
 /***/ (function(module, exports) {
 
-// Copyright (C) 2017 cpsdqs
-
-// This file is part of Dashset.
-
-// Dashset is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-
-// Dashset is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-
-// You should have received a copy of the GNU General Public License
-// along with Dashset. If not, see <http://www.gnu.org/licenses/>.
 var Typesettable;
 
 module.exports = Typesettable = class Typesettable {
@@ -105,23 +89,7 @@ module.exports = Typesettable = class Typesettable {
 /* 1 */
 /***/ (function(module, exports) {
 
-// Copyright (C) 2017 cpsdqs
-
-// This file is part of Dashset.
-
-// Dashset is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-
-// Dashset is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-
-// You should have received a copy of the GNU General Public License
-// along with Dashset. If not, see <http://www.gnu.org/licenses/>.
-var ctx;
+var ctx, customMeasurer;
 
 ctx = null;
 
@@ -129,7 +97,12 @@ if (typeof document !== 'undefined') {
   ctx = document.createElement('canvas').getContext('2d');
 }
 
+customMeasurer = null;
+
 module.exports = function(text, font) {
+  if (customMeasurer) {
+    return customMeasurer(text, font);
+  }
   if (!ctx) {
     return text.length;
   }
@@ -137,27 +110,19 @@ module.exports = function(text, font) {
   return ctx.measureText(text).width;
 };
 
+module.exports.setCustomMeasurer = function(fn) {
+  return customMeasurer = fn;
+};
+
+module.exports.getCustomMeasurer = function() {
+  return customMeasurer;
+};
+
 
 /***/ }),
 /* 2 */
 /***/ (function(module, exports) {
 
-// Copyright (C) 2017 cpsdqs
-
-// This file is part of Dashset.
-
-// Dashset is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-
-// Dashset is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-
-// You should have received a copy of the GNU General Public License
-// along with Dashset. If not, see <http://www.gnu.org/licenses/>.
 var Font;
 
 module.exports = Font = class Font {
@@ -181,22 +146,6 @@ module.exports = Font = class Font {
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-  // Copyright (C) 2017 cpsdqs
-
-  // This file is part of Dashset.
-
-  // Dashset is free software: you can redistribute it and/or modify
-  // it under the terms of the GNU General Public License as published by
-  // the Free Software Foundation, either version 3 of the License, or
-  // (at your option) any later version.
-
-  // Dashset is distributed in the hope that it will be useful,
-  // but WITHOUT ANY WARRANTY; without even the implied warranty of
-  // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  // GNU General Public License for more details.
-
-  // You should have received a copy of the GNU General Public License
-  // along with Dashset. If not, see <http://www.gnu.org/licenses/>.
 var ImageNode, Typesettable,
   hasProp = {}.hasOwnProperty;
 
@@ -229,7 +178,8 @@ module.exports = ImageNode = class ImageNode extends Typesettable {
 
   typeset() {
     switch (this.style) {
-      case 0 || 1:
+      case 0:
+      case 1:
         this.width = this.imageWidth;
         this.height = this.imageHeight;
         if (this.width > this.context.width) {
@@ -254,22 +204,6 @@ module.exports = ImageNode = class ImageNode extends Typesettable {
 /* 4 */
 /***/ (function(module, exports) {
 
-  // Copyright (C) 2017 cpsdqs
-
-  // This file is part of Dashset.
-
-  // Dashset is free software: you can redistribute it and/or modify
-  // it under the terms of the GNU General Public License as published by
-  // the Free Software Foundation, either version 3 of the License, or
-  // (at your option) any later version.
-
-  // Dashset is distributed in the hope that it will be useful,
-  // but WITHOUT ANY WARRANTY; without even the implied warranty of
-  // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  // GNU General Public License for more details.
-
-  // You should have received a copy of the GNU General Public License
-  // along with Dashset. If not, see <http://www.gnu.org/licenses/>.
 var Line,
   indexOf = [].indexOf;
 
@@ -330,22 +264,6 @@ module.exports = Line = class Line {
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-  // Copyright (C) 2017 cpsdqs
-
-  // This file is part of Dashset.
-
-  // Dashset is free software: you can redistribute it and/or modify
-  // it under the terms of the GNU General Public License as published by
-  // the Free Software Foundation, either version 3 of the License, or
-  // (at your option) any later version.
-
-  // Dashset is distributed in the hope that it will be useful,
-  // but WITHOUT ANY WARRANTY; without even the implied warranty of
-  // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  // GNU General Public License for more details.
-
-  // You should have received a copy of the GNU General Public License
-  // along with Dashset. If not, see <http://www.gnu.org/licenses/>.
 var Font, TextNode, Typesettable,
   hasProp = {}.hasOwnProperty;
 
@@ -355,27 +273,23 @@ Font = __webpack_require__(2);
 
 module.exports = TextNode = class TextNode extends Typesettable {
   constructor(context, properties) {
-    var ref, ref1, ref10, ref11, ref12, ref13, ref14, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9;
+    var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9;
     super();
     if (context != null) {
       this.context = context;
     }
     this.bold = (ref = properties != null ? properties.bold : void 0) != null ? ref : false;
     this.italic = (ref1 = properties != null ? properties.italic : void 0) != null ? ref1 : false;
-    this.underline = (ref2 = properties != null ? properties.underline : void 0) != null ? ref2 : false;
-    this.strike = (ref3 = properties != null ? properties.strike : void 0) != null ? ref3 : false;
-    this.size = (ref4 = properties != null ? properties.size : void 0) != null ? ref4 : 1;
-    this.color = (ref5 = properties != null ? properties.color : void 0) != null ? ref5 : [0, 0, 0, 0xff];
-    this.href = (ref6 = properties != null ? properties.href : void 0) != null ? ref6 : '';
-    this.code = (ref7 = properties != null ? properties.code : void 0) != null ? ref7 : false;
-    this.smallcaps = (ref8 = properties != null ? properties.smallcaps : void 0) != null ? ref8 : false;
-    this.spoiler = (ref9 = properties != null ? properties.spoiler : void 0) != null ? ref9 : false;
-    this.sup = (ref10 = properties != null ? properties.sup : void 0) != null ? ref10 : [];
-    this.content = (ref11 = properties != null ? properties.content : void 0) != null ? ref11 : '';
+    this.size = (ref2 = properties != null ? properties.size : void 0) != null ? ref2 : 1;
+    this.code = (ref3 = properties != null ? properties.code : void 0) != null ? ref3 : false;
+    this.smallcaps = (ref4 = properties != null ? properties.smallcaps : void 0) != null ? ref4 : false;
+    this.sup = (ref5 = properties != null ? properties.sup : void 0) != null ? ref5 : [];
+    this.content = (ref6 = properties != null ? properties.content : void 0) != null ? ref6 : '';
+    this.data = {};
     // formatting metadata
-    this.hyphen = (ref12 = properties != null ? properties.hyphen : void 0) != null ? ref12 : false;
-    this.hyphenEnabled = (ref13 = properties != null ? properties.hyphenEnabled : void 0) != null ? ref13 : false;
-    this.exceptStart = (ref14 = properties != null ? properties.exceptStart : void 0) != null ? ref14 : false;
+    this.hyphen = (ref7 = properties != null ? properties.hyphen : void 0) != null ? ref7 : false;
+    this.hyphenEnabled = (ref8 = properties != null ? properties.hyphenEnabled : void 0) != null ? ref8 : false;
+    this.exceptStart = (ref9 = properties != null ? properties.exceptStart : void 0) != null ? ref9 : false;
     this.type = 'text';
   }
 
@@ -430,22 +344,6 @@ module.exports = TextNode = class TextNode extends Typesettable {
 /* 6 */
 /***/ (function(module, exports) {
 
-// Copyright (C) 2017 cpsdqs
-
-// This file is part of Dashset.
-
-// Dashset is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-
-// Dashset is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-
-// You should have received a copy of the GNU General Public License
-// along with Dashset. If not, see <http://www.gnu.org/licenses/>.
 var Spacer;
 
 module.exports = Spacer = class Spacer {
@@ -462,22 +360,6 @@ module.exports = Spacer = class Spacer {
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// Copyright (C) 2017 cpsdqs
-
-// This file is part of Dashset.
-
-// Dashset is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-
-// Dashset is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-
-// You should have received a copy of the GNU General Public License
-// along with Dashset. If not, see <http://www.gnu.org/licenses/>.
 module.exports = {
   Context: __webpack_require__(8),
   Font: __webpack_require__(2),
@@ -499,22 +381,6 @@ if (document && window) {
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// Copyright (C) 2017 cpsdqs
-
-// This file is part of Dashset.
-
-// Dashset is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-
-// Dashset is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-
-// You should have received a copy of the GNU General Public License
-// along with Dashset. If not, see <http://www.gnu.org/licenses/>.
 var Context, measureText;
 
 measureText = __webpack_require__(1);
@@ -554,22 +420,6 @@ module.exports = Context = class Context {
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-  // Copyright (C) 2017 cpsdqs
-
-  // This file is part of Dashset.
-
-  // Dashset is free software: you can redistribute it and/or modify
-  // it under the terms of the GNU General Public License as published by
-  // the Free Software Foundation, either version 3 of the License, or
-  // (at your option) any later version.
-
-  // Dashset is distributed in the hope that it will be useful,
-  // but WITHOUT ANY WARRANTY; without even the implied warranty of
-  // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  // GNU General Public License for more details.
-
-  // You should have received a copy of the GNU General Public License
-  // along with Dashset. If not, see <http://www.gnu.org/licenses/>.
 var ImageNode, Line, ParagraphNode, Spacer, TextNode, Typesettable,
   hasProp = {}.hasOwnProperty,
   indexOf = [].indexOf;
@@ -654,6 +504,9 @@ module.exports = ParagraphNode = class ParagraphNode extends Typesettable {
     ref = this.content;
     for (i = 0, len = ref.length; i < len; i++) {
       node = ref[i];
+      if (node instanceof TextNode) {
+        node.hyphenEnabled = false;
+      }
       node.typeset();
       if (node instanceof ImageNode) {
         if (node.style === 1) {
@@ -672,7 +525,6 @@ module.exports = ParagraphNode = class ParagraphNode extends Typesettable {
           line.append(node);
         }
       } else if (node instanceof TextNode) {
-        node.hyphenEnabled = false;
         if (node.content === '\n') {
           newLine();
         } else {
