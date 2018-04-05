@@ -1,4 +1,4 @@
-/*! dashset 0.2.0 | MIT (https://spdx.org/licenses/MIT) */
+/*! dashset 0.3.0 | MIT (https://spdx.org/licenses/MIT) */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -218,6 +218,7 @@ module.exports = Line = class Line {
     this.content = [];
     this.source = null;
     this.lastInParagraph = false;
+    this.margin = false;
     this.type = 'line';
     Object.defineProperty(this, 'length', {
       get: function() {
@@ -390,7 +391,7 @@ measureText = __webpack_require__(1);
 
 module.exports = Context = class Context {
   constructor(options) {
-    var ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9;
+    var ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref19, ref2, ref20, ref21, ref3, ref4, ref5, ref6, ref7, ref8, ref9;
     if (!options) {
       options = {};
     }
@@ -409,6 +410,10 @@ module.exports = Context = class Context {
       left: (ref12 = (ref13 = options.quotePadding) != null ? ref13.left : void 0) != null ? ref12 : 10,
       right: (ref14 = (ref15 = options.quotePadding) != null ? ref15.right : void 0) != null ? ref14 : 10,
       bottom: (ref16 = (ref17 = options.quotePadding) != null ? ref17.bottom : void 0) != null ? ref16 : 10
+    };
+    this.quoteMargin = {
+      top: (ref18 = (ref19 = options.quoteMargin) != null ? ref19.top : void 0) != null ? ref18 : 10,
+      bottom: (ref20 = (ref21 = options.quoteMargin) != null ? ref21.bottom : void 0) != null ? ref20 : 10
     };
   }
 
@@ -482,7 +487,11 @@ module.exports = ParagraphNode = class ParagraphNode extends Typesettable {
     lines = [line];
     width = this.context.width;
     if (this.quote && !this.join) {
-      width -= this.context.quotePadding.left + this.context.quotePadding.right;
+      line.append(new Spacer(0, this.context.quoteMargin.top));
+      line.margin = true;
+      line = new Line(this.context);
+      line.source = this;
+      lines.push(line);
       line.append(new Spacer(0, this.context.quotePadding.top));
       line = new Line(this.context);
       line.source = this;
@@ -498,10 +507,20 @@ module.exports = ParagraphNode = class ParagraphNode extends Typesettable {
     if (this.indent) {
       line.append(new Spacer(this.context.indentWidth, this.context.fontSize));
     }
+    if (this.quote) {
+      width -= this.context.quotePadding.left + this.context.quotePadding.right;
+      line.append(new Spacer(this.context.quotePadding.left, 0));
+    }
     newLine = () => {
+      if (this.quote) {
+        line.append(new Spacer(this.context.quotePadding.right, 0));
+      }
       line = new Line(this.context);
       line.source = this;
-      return lines.push(line);
+      lines.push(line);
+      if (this.quote) {
+        return line.append(new Spacer(this.context.quotePadding.left, 0));
+      }
     };
     previousNode = null;
     ref = this.content;
@@ -556,6 +575,11 @@ module.exports = ParagraphNode = class ParagraphNode extends Typesettable {
       line.source = this;
       lines.push(line);
       line.append(new Spacer(0, this.context.quotePadding.bottom));
+      line = new Line(this.context);
+      line.source = this;
+      lines.push(line);
+      line.append(new Spacer(0, this.context.quoteMargin.bottom));
+      line.margin = true;
     }
     return this.lines = lines;
   }

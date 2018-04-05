@@ -7,6 +7,7 @@ class Line
     @content = []
     @source = null
     @lastInParagraph = no
+    @margin = no
 
     @type = 'line'
 

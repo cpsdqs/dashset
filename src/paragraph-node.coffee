@@ -38,8 +38,14 @@ class ParagraphNode extends Typesettable
     width = @context.width
 
     if @quote and not @join
-      width -= @context.quotePadding.left + @context.quotePadding.right
+      line.append new Spacer 0, @context.quoteMargin.top
+      line.margin = yes
+
+      line = new Line @context
+      line.source = this
+      lines.push line
       line.append new Spacer 0, @context.quotePadding.top
+
       line = new Line @context
       line.source = this
       lines.push line
@@ -54,10 +60,20 @@ class ParagraphNode extends Typesettable
     if @indent
       line.append new Spacer @context.indentWidth, @context.fontSize
 
+    if @quote
+      width -= @context.quotePadding.left + @context.quotePadding.right
+      line.append new Spacer @context.quotePadding.left, 0
+
     newLine = =>
+      if @quote
+        line.append new Spacer @context.quotePadding.right, 0
+
       line = new Line @context
       line.source = this
       lines.push line
+
+      if @quote
+        line.append new Spacer @context.quotePadding.left, 0
 
     previousNode = null
     for node in @content
@@ -107,5 +123,11 @@ class ParagraphNode extends Typesettable
       line.source = this
       lines.push line
       line.append new Spacer 0, @context.quotePadding.bottom
+
+      line = new Line @context
+      line.source = this
+      lines.push line
+      line.append new Spacer 0, @context.quoteMargin.bottom
+      line.margin = yes
 
     @lines = lines

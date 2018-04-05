@@ -20,6 +20,9 @@ class Context
       left: options.quotePadding?.left ? 10
       right: options.quotePadding?.right ? 10
       bottom: options.quotePadding?.bottom ? 10
+    @quoteMargin =
+      top: options.quoteMargin?.top ? 10
+      bottom: options.quoteMargin?.bottom ? 10
 
   measureText: (args...) ->
     measureText(args...)
